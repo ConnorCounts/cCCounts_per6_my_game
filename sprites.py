@@ -81,6 +81,7 @@ class Mob(Sprite):
             print("i am off the top of the screen...")
 
     def behavior(self):
+        self.acc.y = -MOB_ACC
         print(self.vel)
         self.acc.y = -2
     

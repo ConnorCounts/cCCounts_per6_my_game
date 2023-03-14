@@ -1,12 +1,11 @@
-# File created by: Chris Cozort
+# By Connor Counts
 # Agenda:
 # gIT GITHUB    
 # Build file and folder structures
 # Create libraries
+#ge9nete
 
-# This file was created by: Chris Cozort
 # Sources: http://kidscancode.org/blog/2016/08/pygame_1-1_getting-started/
-# Sources: 
 
 # import libs
 import pygame as pg
