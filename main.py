@@ -3,7 +3,6 @@
 # gIT GITHUB    
 # Build file and folder structures
 # Create libraries
-#ge9nete
 
 # Sources: http://kidscancode.org/blog/2016/08/pygame_1-1_getting-started/
 
