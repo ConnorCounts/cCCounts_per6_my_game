@@ -6,6 +6,7 @@ from settings import *
 
 vec = pg.math.Vector2
 
+from random import randint 
 # player class
 
 class Player(Sprite):
@@ -54,41 +55,36 @@ class Player(Sprite):
 
 
 class Mob(Sprite):
-    def __init__(self,width,height):
+    def __init__(self,width,height,color):
         Sprite.__init__(self)
-        self.image = pg.Surface((width,height))
         self.width = width
         self.height = height
-        self.image.fill(RED)
+        self.image = pg.Surface((self.width,self.height))
+        self.color = color
+        self.image.fill(self.color)
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH/2, HEIGHT/2)
         self.pos = vec(WIDTH/2, HEIGHT/2)
-        self.vel = vec(0,0)
-        self.acc = vec(0,0)
-        self.cofric = 0.1
-    
+        self.vel = vec(randint(1,5),randint(1,5))
+        self.acc = vec(1,1)
+        self.cofric = 0.01
     # ...
     def inbounds(self):
-        if self.rect.x > WIDTH - 50:
-            self.pos.x = WIDTH - 25
-            self.vel.x = 0
-            print("i am off the right side of the screen...")
+        if self.rect.x > WIDTH:
+            self.vel.x *= -1
+            # self.acc = self.vel * -self.cofric
         if self.rect.x < 0:
-            print("i am off the left side of the screen...")
-        if self.rect.y > HEIGHT:
-            print("i am off the bottom of the screen")
+            self.vel.x *= -1
+            # self.acc = self.vel * -self.cofric
         if self.rect.y < 0:
-            print("i am off the top of the screen...")
-
-    def behavior(self):
-        self.acc.y = -MOB_ACC
-        print(self.vel)
-        self.acc.y = -2
-    
+            self.vel.y *= -1
+            # self.acc = self.vel * -self.cofric
+        if self.rect.y > HEIGHT:
+            self.vel.y *= -1
+            # self.acc = self.vel * -self.cofric
     def update(self):
-        # self.inbounds()
-        self.acc = self.vel * -0.2
-        self.vel += self.acc
-        self.behavior()
-        self.pos += self.vel + 0.5 * self.acc
+        self.inbounds()
+        # self.pos.x += self.vel.x
+        # self.pos.y += self.vel.y
+        self.pos += self.vel
         self.rect.center = self.pos
