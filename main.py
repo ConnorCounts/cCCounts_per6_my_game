@@ -66,11 +66,16 @@ while RUNNING:
         # check for window closing
         if event.type == pg.QUIT:
             RUNNING = False
+        if event.type == pg.K_ESCAPE:
+            if event.key == pg.KEYDOWN:
+              PAUSED = True 
             # break
     # print(get_mouse_now())
     ### update section of game loop (if updates take longer the 1/30th of a second, you will get laaaaag...)
-    enemies.update()
-    all_sprites.update()
+    
+
+
+
 
     # if player hits enemies
     blocks_hit_list = pg.sprite.spritecollide(player, enemies, True)

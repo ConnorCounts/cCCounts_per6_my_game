@@ -12,6 +12,7 @@ from random import randint
 class Player(Sprite):
     def __init__(self):
         Sprite.__init__(self)
+        # these are the properties of the Player
         self.image = pg.Surface((50,50))
         self.image.fill(BLACK)
         self.rect = self.image.get_rect()
@@ -39,6 +40,8 @@ class Player(Sprite):
             self.vel.x = 0
             print("i am off the right side of the screen...")
         if self.rect.x < 0:
+            self.rect.x = self.rect.x + self.rect.width
+            self.rect.x = 0
             print("i am off the left side of the screen...")
         if self.rect.y > HEIGHT:
             print("i am off the bottom of the screen")
