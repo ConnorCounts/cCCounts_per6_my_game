@@ -3,13 +3,25 @@
 # Build file and folder structures
 # Create libraries
 
+"""
+Game structure:
+GOALS; RULES; FEEDBACK; FREEDOM
+
+My goal is:
+
+Is to create a new platform, seperate from the bottom, that does not let me move through it on the x or y axis.
+I want player to be stopped when it hits this new platform instead of moving through the other platforms to the top.
+Create a solid platform that can still hold the player on top but the player cannot go through the platofrm. 
+
+"""
+
 
 # import libs
 import pygame as pg
 import os
 # import settings 
-from settings import *
-from sprites import *
+from settings_test_counts import *
+from sprites_test_counts import *
 # from pg.sprite import Sprite
 
 # set up assets folders
@@ -78,6 +90,9 @@ class Game:
         if self.player.vel.y > 0:
             hits = pg.sprite.spritecollide(self.player, self.platforms, False)
             if hits:
+                #if abs(self.player.vel.x) > abs(self.player.vel.y):
+                    #if self.player.vel.x > 0:
+                        #print("Im going faster on the x and coming from the left...")
                 self.player.standing = True
                 if hits[0].variant == "disappearing":
                     hits[0].kill()

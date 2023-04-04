@@ -1,6 +1,6 @@
 import pygame as pg
 from pygame.sprite import Sprite
-from settings import *
+from settings_test_counts import *
 from random import randint 
 
 vec = pg.math.Vector2
