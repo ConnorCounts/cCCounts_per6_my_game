@@ -1,4 +1,6 @@
+# importing the libraries to use
 import pygame as pg
+# Allowing this sprite file to go into the main file and allowing the Settings file to work in with this file 
 from pygame.sprite import Sprite
 from settings_test_counts import *
 from random import randint 
@@ -6,11 +8,10 @@ from random import randint
 vec = pg.math.Vector2
 
 # player class
-
 class Player(Sprite):
     def __init__(self, game):
         Sprite.__init__(self)
-        # these are the properties
+        # Setting the properties for the player
         self.game = game
         self.image = pg.Surface((50,50))
         self.image.fill(BLACK)
@@ -23,24 +24,15 @@ class Player(Sprite):
         self.canjump = False
         self.standing = False
         self.jumping = False
+
     def input(self):
         keystate = pg.key.get_pressed()
-        # if keystate[pg.K_w]:
-        #     self.acc.y = -PLAYER_ACC
         if keystate[pg.K_a]:
             self.acc.x = -PLAYER_ACC
-        # if keystate[pg.K_s]:
-        #     self.acc.y = PLAYER_ACC
         if keystate[pg.K_d]:
             self.acc.x = PLAYER_ACC
-        # if keystate[pg.K_p]:
-        #     if PAUSED == False:
-        #         PAUSED = True
-        #         print(PAUSED)
-        #     else:
-        #         PAUSED = False
-        #         print(PAUSED)
-    # ...
+       
+    # defining how the player can jump 
     def jump(self):
         self.jumping = True
         self.rect.x += 1
@@ -50,28 +42,7 @@ class Player(Sprite):
         self.vel.y = -PLAYER_JUMP
         self.jumping = False
 
-    
-    def inbounds(self):
-        if self.rect.x > WIDTH - 50:
-            self.pos.x = WIDTH - 25
-            self.vel.x = 0
-            print("i am off the right side of the screen...")
-        if self.rect.x < 0:
-            self.pos.x = 25
-            self.vel.x = 0
-            print("i am off the left side of the screen...")
-        if self.rect.y > HEIGHT:
-            print("i am off the bottom of the screen")
-        if self.rect.y < 0:
-            print("i am off the top of the screen...")
-
-    def mob_collide(self):
-            hits = pg.sprite.spritecollide(self, self.game.enemies, True)
-            if hits:
-                print("you collided with an enemy...")
-                self.game.score += 1
-                print(SCORE)
-
+    # 
     def update(self):
         self.acc = vec(0, PLAYER_GRAV)
         self.acc.x = self.vel.x * PLAYER_FRICTION
@@ -80,16 +51,15 @@ class Player(Sprite):
         self.pos += self.vel + 0.5 * self.acc
         self.rect.bottomleft = self.pos
         
+        # trying to create boundaries for my last game design
+
         # the step is at 550
         #if (self.pos[0] < 560 and self.pos[0] > 200):
             
-            #if self.pos[1] > 500:
-        
-        
+            #if self.pos[1] > 500:     
         print(self.pos)
 
-
-
+#class for a mob, but is not being used for this game
 class Mob(Sprite):
     def __init__(self,width,height, color):
         Sprite.__init__(self)
@@ -104,29 +74,8 @@ class Mob(Sprite):
         self.vel = vec(randint(1,5),randint(1,5))
         self.acc = vec(1,1)
         self.cofric = 0.01
-    # ...
-    def inbounds(self):
-        if self.rect.x > WIDTH:
-            self.vel.x *= -1
-            # self.acc = self.vel * -self.cofric
-        if self.rect.x < 0:
-            self.vel.x *= -1
-            # self.acc = self.vel * -self.cofric
-        if self.rect.y < 0:
-            self.vel.y *= -1
-            # self.acc = self.vel * -self.cofric
-        if self.rect.y > HEIGHT:
-            self.vel.y *= -1
-            # self.acc = self.vel * -self.cofric
-    def update(self):
-        self.inbounds()
-        # self.pos.x += self.vel.x
-        # self.pos.y += self.vel.y
-        self.pos += self.vel
-        self.rect.center = self.pos
 
-# create a new platform class...
-
+# creating a platform class
 class Platform(Sprite):
     def __init__(self, x, y, width, height, color, variant):
         Sprite.__init__(self)
