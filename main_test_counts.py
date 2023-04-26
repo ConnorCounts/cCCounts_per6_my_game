@@ -7,12 +7,10 @@
 Game structure:
 GOALS; RULES; FEEDBACK; FREEDOM
 
-My goal is:
-
-Is to create a new platform, seperate from the bottom, that does not let me move through it on the x or y axis.
-I want player to be stopped when it hits this new platform instead of moving through the other platforms to the top.
-Create a solid platform that can still hold the player on top but the player cannot go through the platofrm. 
-
+My new goal is:
+After being very unsucessful with trying to make a platform that has its side be solid, I had to change my goal.
+My new goal was to make a game where when the player touches the platform, the platform changes color.
+Along with, when the player is no longer touching the platform, the platform goes back to its original color. 
 """
 
 
@@ -48,7 +46,7 @@ class Game:
         self.platforms = pg.sprite.Group()
         self.enemies = pg.sprite.Group()
         self.player = Player(self)
-        self.plat1 = Platform(WIDTH, 50, 0, HEIGHT-50, (150,150,150), "normal")
+        self.plat1 = Platform(WIDTH, 50, 0, HEIGHT-50, (50,50,50), "normal")
         # self.plat1 = Platform(WIDTH, 50, 0, HEIGHT-50, (150,150,150), "normal")
         self.all_sprites.add(self.plat1)
 
@@ -59,10 +57,10 @@ class Game:
             p = Platform(*plat)
             self.all_sprites.add(p)
             self.platforms.add(p)
-        for i in range(0,10):
-            m = Mob(20,20,(0,255,0))
-            self.all_sprites.add(m)
-            self.enemies.add(m)
+        #for i in range(0,10):
+            #m = Mob(20,20,(0,255,0))
+            #self.all_sprites.add(m)
+            #self.enemies.add(m)
         self.run()
 
     def run(self):
@@ -82,34 +80,32 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     self.player.jump()
+           
 
     def update(self):
         self.all_sprites.update()
-        
+
         # if the player is falling
         if self.player.vel.y > 0:
             hits = pg.sprite.spritecollide(self.player, self.platforms, False)
+
             if hits:
-                #if abs(self.player.vel.x) > abs(self.player.vel.y):
-                    #if self.player.vel.x > 0:
-                        #print("Im going faster on the x and coming from the left...")
-                self.player.standing = True
-                if hits[0].variant == "disappearing":
-                    hits[0].kill()
-                elif hits[0].variant == "bouncey":
-                    self.player.pos.y = hits[0].rect.top
-                    self.player.vel.y = -PLAYER_JUMP
-                else:
-                    self.player.pos.y = hits[0].rect.top
-                    self.player.vel.y = 0
+                self.player.pos.y = hits[0].rect.top
+                self.player.vel.y = 0
+                print ("landed!!!!")
+                hits[0].image.fill(RED)
             else:
                 self.player.standing = False
+                #self.platforms[0].image.fill(WHITE)
+                for platform in self.platforms:
+                    platform.image.fill(WHITE)
+
 
     def draw (self):
         self.screen.fill(BLUE)
         self.all_sprites.draw(self.screen)
         if self.player.standing:
-            self.draw_text("I hit a plat!", 24, WHITE, WIDTH/2, HEIGHT/2)
+            self.draw_text("I hit a plat!", 24, BLACK, WIDTH/2, HEIGHT/2)
         pg.display.flip()
 
     def draw_text(self, text, size, color, x, y):
@@ -119,7 +115,7 @@ class Game:
         text_rect = text_surface.get_rect()
         text_rect.midtop = (x,y)
         self.screen.blit(text_surface, text_rect)
-           
+
     def get_mouse_now(self):
         x,y = pg.mouse.get_pos()
         return (x,y)
